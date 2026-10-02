@@ -1,80 +1,163 @@
-Cold Chain Logistics - AI Assistant
-This project transforms a legacy cold-chain logistics database into an autonomous AI dispatch console. Powered by a LangGraph ReAct agent, the system integrates spatial SQL telemetry, live weather APIs, and Vector RAG compliance rulebooks to proactively anticipate and resolve cargo spoilage risks before they occur. Built for enterprise reliability, it features an invisible, immutable SQL audit trail and is fully deployed to a live AWS EC2 environment using automated CI/CD pipelines.
+<div align="center">
 
-🚀 Key Features
-Autonomous ReAct Agent Brain: A LangGraph-powered orchestrator that autonomously decides when to utilize tools, query databases, or read RAG documents to solve complex dispatch scenarios.
+# ❄️ Cold Chain Logistics – AI Dispatch Console
 
-Structured & Unstructured Data Fusion: Seamlessly bridges Structured Data (SQL Server telemetry) with Unstructured Data (Vector RAG compliance rulebooks) in a single, continuous workflow.
+### An autonomous AI assistant that spots cargo-spoilage risks *before* they happen
 
-Geospatial NLP Translation: Instructs an LLM to dynamically translate natural language geographic and location-based terms into precise GPS bounding-box SQL queries.
+![Python](https://img.shields.io/badge/Python-3.9+-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-ReAct_Agent-1C3C3C?style=for-the-badge)
+![MySQL](https://img.shields.io/badge/MySQL-Spatial_SQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-UI-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![AWS EC2](https://img.shields.io/badge/AWS-EC2-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/CI%2FCD-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
 
-Enterprise-Grade Audit Trail: Engineered with an invisible, immutable SQL logging system that permanently records every LLM thought process, tool execution, and decision for strict compliance and enterprise trust.
+</div>
 
-Automated CI/CD Pipeline: Fully transitioned from local hosting to production using GitHub Actions to deploy the application securely to a live AWS EC2 instance.
+---
 
-🏗️ Architecture & Tech Stack
-AI Framework: LangGraph, ReAct Agent Architecture, Vector RAG
+## 📖 Overview
 
-Databases: SQL Server (Spatial SQL / GPS Bounding), Vector Database (for Rulebooks)
+This project transforms a legacy cold-chain logistics database into an **autonomous AI dispatch console**. A **LangGraph ReAct agent** combines spatial SQL telemetry, live weather APIs and **Vector RAG** compliance rulebooks to proactively anticipate and resolve cargo-spoilage risks.
 
-External APIs: Live Weather APIs
+Built for enterprise reliability, it ships with an **invisible, immutable SQL audit trail** and is deployed to a live **AWS EC2** environment through automated **CI/CD** pipelines.
 
-Infrastructure: AWS EC2
+---
 
-DevOps: GitHub Actions, CI/CD, Immutable SQL Logging
+## 🚀 Key Features
 
-⚙️ Prerequisites
-Before running this project locally, ensure you have the following installed and configured:
+| | Feature | Description |
+|---|---|---|
+| 🧠 | **Autonomous ReAct Agent** | A LangGraph orchestrator that decides on its own when to call tools, query the database or read RAG documents. |
+| 🔗 | **Structured + Unstructured Fusion** | Bridges SQL telemetry (structured) with compliance rulebooks via Vector RAG (unstructured) in one continuous workflow. |
+| 🗺️ | **Geospatial NLP Translation** | The LLM converts natural-language locations into precise GPS bounding-box SQL queries. |
+| 🔒 | **Immutable Audit Trail** | Every LLM thought, tool call and decision is permanently logged to SQL for compliance and trust. |
+| 🚢 | **Automated CI/CD** | GitHub Actions deploys every push to `main` straight to AWS EC2. |
+| 💬 | **Streamlit Dispatch UI** | A clean chat interface for dispatchers to interact with the agent. |
 
-Python 3.9+
+---
 
-SQL Server (with spatial data types enabled)
+## 🏗️ Architecture
 
-AWS CLI configured with appropriate EC2 access permissions
+```mermaid
+flowchart LR
+    U[👤 Dispatcher] --> UI[Streamlit UI]
+    UI --> A[🧠 LangGraph ReAct Agent]
+    A -->|query_telemetry_db| DB[(SQL Telemetry)]
+    A -->|search_compliance_sop| V[(Vector DB - Rulebooks)]
+    A -->|get_weather| W[☁️ Weather API]
+    A -.->|logs every step| L[(Immutable Audit Log)]
+    A --> UI
+```
 
-API Keys for the chosen LLM provider, Weather API, and Vector DB
+**Example flow**
 
-🛠️ Local Installation & Setup
-Clone the Repository
+> *"Is Shipment A42 on track?"*
+> → agent calls `query_telemetry_db` → then `search_compliance_sop` → replies with the current temperature vs. the allowed limit (**-22°C to -18°C**).
 
-Bash
+---
+
+## 🧰 Tech Stack
+
+- **AI Framework:** LangGraph, ReAct agent architecture, Vector RAG
+- **Databases:** MySQL (spatial / GPS bounding queries), Vector DB for rulebooks
+- **External APIs:** Live weather API
+- **Frontend:** Streamlit
+- **Infrastructure:** AWS EC2
+- **DevOps:** GitHub Actions, CI/CD, immutable SQL logging
+
+---
+
+## ⚙️ Prerequisites
+
+- Python **3.9+**
+- **MySQL** (spatial data types enabled)
+- AWS CLI configured with EC2 access
+- API keys for your LLM provider, Weather API and Vector DB
+
+---
+
+## 🛠️ Local Installation
+
+**1. Clone the repository**
+```bash
 git clone https://github.com/your-organization/cold-chain-ai-assistant.git
 cd cold-chain-ai-assistant
-Set Up a Virtual Environment
+```
 
-Bash
+**2. Create a virtual environment**
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows use: venv\Scripts\activate
-Install Dependencies
+source venv/bin/activate      # Windows: venv\Scripts\activate
+```
 
-Bash
+**3. Install dependencies**
+```bash
 pip install -r requirements.txt
-Environment Variables
-Create a .env file in the root directory and add your credentials:
+```
 
-Code snippet
+**4. Configure environment variables** – create a `.env` file in the project root:
+```env
 LLM_API_KEY=your_api_key_here
 WEATHER_API_KEY=your_weather_api_key
-DB_CONNECTION_STRING=your_sql_server_connection_string
+DB_CONNECTION_STRING=your_database_connection_string
 VECTOR_DB_URL=your_vector_db_url
-Run the Application Locally
+```
 
-Bash
-python main.py
-🌐 Deployment (CI/CD)
-This project utilizes GitHub Actions for continuous integration and continuous deployment.
+**5. Run the app**
+```bash
+streamlit run main.py
+```
 
-Any push to the main branch automatically triggers the deployment pipeline:
+---
 
-Lints and tests the Python codebase.
+## 🌐 Deployment (CI/CD)
 
-Authenticates securely with AWS using GitHub Secrets.
+Every push to `main` triggers the GitHub Actions pipeline:
 
-Pulls the latest code to the designated AWS EC2 instance.
+1. ✅ Lint and test the Python codebase
+2. 🔐 Authenticate with AWS using GitHub Secrets
+3. 📥 Pull the latest code onto the AWS EC2 instance
+4. 🔄 Restart the LangGraph agent service
 
-Restarts the LangGraph ReAct agent service.
+> **Note:** Store your AWS credentials under **Settings → Secrets and variables → Actions** in your GitHub repository.
 
-Note: Ensure your GitHub repository has the necessary AWS deployment credentials stored securely in Settings > Secrets and variables > Actions.
+---
 
-🔒 Audit & Compliance Logging
-A core feature of this application is its Invisible SQL Audit Trail. You do not need to manually configure logging for standard AI operations. The system intercepts all LangGraph events—including tool calls, API responses, RAG retrieval context, and step-by-step reasoning—and permanently writes them to an immutable SQL table. This ensures complete traceability for regulatory compliance in cold-chain handling.
+## 🔒 Audit & Compliance Logging
+
+The **invisible SQL audit trail** needs no manual setup. The system intercepts all LangGraph events — tool calls, API responses, RAG retrieval context and step-by-step reasoning — and writes them to an **immutable SQL table**, giving full traceability for regulatory compliance in cold-chain handling.
+
+---
+
+## 📂 Project Structure
+
+```text
+cold-chain-ai-assistant/
+├── main.py                 # App entry point
+├── agent/                  # LangGraph ReAct agent & tools
+├── db/                     # SQL queries, spatial helpers, audit logger
+├── rag/                    # Vector store & compliance rulebooks
+├── .github/workflows/      # CI/CD pipeline
+├── requirements.txt
+└── README.md
+```
+
+> Adjust folder names to match your actual repository.
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues and feature requests are welcome. Fork the repo, create a feature branch and open a pull request.
+
+## 📜 License
+
+Distributed under the MIT License. See `LICENSE` for details.
+
+---
+
+<div align="center">
+
+⭐ If you found this project useful, please give it a star!
+
+</div>
